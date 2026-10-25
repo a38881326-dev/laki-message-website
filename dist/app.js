@@ -72,7 +72,13 @@
     set(k,v){try{sessionStorage.setItem('laki-'+k,JSON.stringify(v));}catch{}},
     remove(k){try{sessionStorage.removeItem('laki-'+k);}catch{}},
   };
-  let demo = false, session = storage.get('session',null), profile = null, rows = [], currentLetter = null, deleteId = null;
+  // The teacher stays signed in on her own phone, so the installed app opens straight to the dashboard.
+  const keep = {
+    get(k,fallback){try{return JSON.parse(localStorage.getItem('laki-'+k)) ?? fallback;}catch{return fallback;}},
+    set(k,v){try{localStorage.setItem('laki-'+k,JSON.stringify(v));}catch{}},
+    remove(k){try{localStorage.removeItem('laki-'+k);}catch{}},
+  };
+  let demo = false, session = keep.get('session',null), profile = null, rows = [], currentLetter = null, deleteId = null;
   let lastTemplate = -1, fetchEpoch = 0, routeEpoch = 0, toastTimer, refreshPromise = null;
   let activeGroup=null,importSheets=[],importPlan=null,importing=false;
   function toast(message){$('#toast').textContent=message;$('#toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('show'),3500);}
@@ -84,7 +90,7 @@
   async function token(){
     if(!session)throw new Error('انتهت جلسة الدخول. سجّلي الدخول من جديد.');
     if((session.expires_at||0)*1000>Date.now()+60000)return session.access_token;
-    if(!refreshPromise) refreshPromise=(async()=>{const data=await request('/auth/v1/token?grant_type=refresh_token',{method:'POST',body:{refresh_token:session.refresh_token},auth:false});session={...data,expires_at:Math.floor(Date.now()/1000)+data.expires_in};storage.set('session',session);return session.access_token;})().finally(()=>{refreshPromise=null;});
+    if(!refreshPromise) refreshPromise=(async()=>{const data=await request('/auth/v1/token?grant_type=refresh_token',{method:'POST',body:{refresh_token:session.refresh_token},auth:false});session={...data,expires_at:Math.floor(Date.now()/1000)+data.expires_in};keep.set('session',session);return session.access_token;})().finally(()=>{refreshPromise=null;});
     return refreshPromise;
   }
   async function request(path,{method='GET',body,auth=true,headers={}}={}){
@@ -92,7 +98,7 @@
     const bearer=auth?await token():(key?.startsWith('eyJ')?key:null);
     const response=await fetch(config.supabaseUrl.replace(/\/$/,'')+path,{method,headers:{apikey:key,'Content-Type':'application/json',...(bearer?{Authorization:'Bearer '+bearer}:{}),...headers},...(body!==undefined?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(18000)});
     const text=await response.text();let data;try{data=text?JSON.parse(text):null;}catch{data=null;}
-    if(!response.ok){if(response.status===401&&auth){session=null;storage.remove('session');throw new Error('انتهت جلسة الدخول. سجّلي الدخول من جديد.');}throw new Error(data?.message||data?.msg||data?.error_description||'تعذّر إتمام الطلب. حاولي مجددًا.');}return data;
+    if(!response.ok){if(response.status===401&&auth){session=null;keep.remove('session');throw new Error('انتهت جلسة الدخول. سجّلي الدخول من جديد.');}throw new Error(data?.message||data?.msg||data?.error_description||'تعذّر إتمام الطلب. حاولي مجددًا.');}return data;
   }
   function errorMessage(error){if(error.name==='TimeoutError'||error.name==='AbortError')return 'الاتصال أخذ وقتًا أطول من المعتاد. تحقّقي من الشبكة وحاولي مجددًا.';if(error instanceof TypeError)return 'تعذّر الاتصال. تحقّقي من الإنترنت وحاولي مجددًا.';return error.message||'حدث خطأ. حاولي مجددًا.';}
   function showView(view){for(const name of ['student','letter','teacher'])$('#'+name+'-view').hidden=name!==view;document.title=view==='teacher'?'مساحة المعلمة · لكِ رسالة':view==='letter'?'كلمات تُزهر · لكِ رسالة':'لكِ رسالة · كلمات تُزهر';}
@@ -194,11 +200,11 @@
   });
   $('#login-form').addEventListener('submit',async e=>{
     e.preventDefault();if(!ready){$('#login-error').textContent='لم يكتمل الربط بعد. استكشفي اللوحة التجريبية حتى يتم التفعيل.';return;}
-    const b=$('#login-form button');setBusy(b,true,'جارٍ الدخول…');$('#login-error').textContent='';try{const data=await request('/auth/v1/token?grant_type=password',{method:'POST',auth:false,body:{email:$('#teacher-email').value.trim(),password:$('#teacher-password').value}});session={...data,expires_at:Math.floor(Date.now()/1000)+data.expires_in};storage.set('session',session);demo=false;$('#teacher-password').value='';await route();}catch(error){$('#login-error').textContent=errorMessage(error);}finally{setBusy(b,false);}
+    const b=$('#login-form button');setBusy(b,true,'جارٍ الدخول…');$('#login-error').textContent='';try{const data=await request('/auth/v1/token?grant_type=password',{method:'POST',auth:false,body:{email:$('#teacher-email').value.trim(),password:$('#teacher-password').value}});session={...data,expires_at:Math.floor(Date.now()/1000)+data.expires_in};keep.set('session',session);demo=false;$('#teacher-password').value='';await route();}catch(error){$('#login-error').textContent=errorMessage(error);}finally{setBusy(b,false);}
   });
   $('#try-dashboard')?.addEventListener('click',async()=>{demo=true;await route();});
   $('#logout').addEventListener('click',async()=>{
-    const wasDemo=demo;const oldSession=session;demo=false;session=null;profile=null;rows=[];++fetchEpoch;storage.remove('session');$('#teacher-email').value='';$('#teacher-password').value='';$('#letter-form').reset();$('#edit-id').value='';resetComposer();await route();
+    const wasDemo=demo;const oldSession=session;demo=false;session=null;profile=null;rows=[];++fetchEpoch;keep.remove('session');$('#teacher-email').value='';$('#teacher-password').value='';$('#letter-form').reset();$('#edit-id').value='';resetComposer();await route();
     if(!wasDemo&&ready&&oldSession){try{await fetch(config.supabaseUrl.replace(/\/$/,'')+'/auth/v1/logout',{method:'POST',headers:{apikey:config.supabasePublishableKey,Authorization:'Bearer '+oldSession.access_token},signal:AbortSignal.timeout(8000)});}catch{}}
   });
   $('#letter-form').addEventListener('submit',async e=>{
