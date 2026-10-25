@@ -1,0 +1,14 @@
+const assert=require('node:assert/strict');
+const importer=require('../dist/importer.js');
+const csv='\uFEFFاسم الطالبة,الفصل\r\n"ديمة أحمد","رابع / ١"\r\n"ديمة أحمد","رابع / ١"\r\n,رابع\r\n"ندى محمد","رابع / ٢"';
+const rows=importer.parseCSV(csv),plan=importer.prepare(rows);
+assert.equal(plan.valid.length,2);assert.equal(plan.duplicate,1);assert.equal(plan.issues.length,1);
+assert.equal(importer.prepare(rows,plan.valid).valid.length,0);
+assert.deepEqual(importer.parseCSV('اسم الطالبة;الفصل\n"أمل، محمد";رابع')[1],['أمل، محمد','رابع']);
+assert.deepEqual(importer.parseCSV('اسم الطالبة,الفصل\n"أمل ""نور""",رابع')[1],['أمل "نور"','رابع']);
+assert.equal(importer.prepare([['عنوان فوق الجدول'],['اسم الطالبة','الفصل','اسم الأب'],['أمل','رابع','أحمد']]).valid[0].father_name,'أحمد');
+assert.throws(()=>importer.prepare([['عنوان غير صحيح','فصل'],['أمل','رابع']]));
+assert.throws(()=>importer.parseCSV('"اقتباس بلا إغلاق'));
+assert.equal(importer.prepare([['اسم الطالبة','الفصل'],['=HYPERLINK("url")','رابع']]).issues.length,1);
+assert.throws(()=>importer.prepare([['اسم الطالبة','الفصل'],...Array.from({length:501},(_,i)=>['طالبة '+i,'رابع'])]));
+console.log('Roster import checks passed.');
