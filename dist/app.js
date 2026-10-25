@@ -56,7 +56,7 @@
     {theme:'ramadan',text:'كل عام وأنتِ بخير يا جميلة ♡\nبابتسامتكِ ولطفكِ تزيدين العيد جمالًا. تقبّل الله منكِ، وأعاده عليكِ بالخير والسعادة.'},
   ];
   // ثاني-1، ثاني / ١ and ثاني1 are the same class.
-  const classKey=s=>digits(normalize(s)).replace(/[^p{L}p{N}]/gu,'');
+  const classKey=s=>digits(normalize(s)).replace(/[^\p{L}\p{N}]/gu,'');
   const occasions=['start','exams','end','national','ramadan'];
   const digits=s=>String(s??'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).trim();
   const normalize = s => String(s).normalize('NFKC').trim().toLocaleLowerCase().replace(/[\u064B-\u065F\u0670\u0640\s]/g,'').replace(/[أإآٱ]/g,'ا').replace(/[ىئ]/g,'ي').replace(/ؤ/g,'و').replace(/ء/g,'').replace(/ة/g,'ه');
