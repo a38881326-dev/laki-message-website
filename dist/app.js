@@ -306,6 +306,52 @@
     }catch(error){toast(errorMessage(error));}finally{setBusy(b,false);}
   }
   $('#save-card').addEventListener('click',downloadCard);
+  // Class roster: pick any student, a whole class or a searched group, then send varied or written letters.
+  let students=[];const picked=new Set();
+  const fullName=s=>(s.first_name+' '+s.father_name).trim();
+  async function loadStudents(){if(demo){students=storage.get('demoStudents',[]);return;}const all=[];for(let offset=0;;offset+=1000){const page=await request('/rest/v1/students?select=*&order=grade.asc,first_name.asc,father_name.asc&limit=1000&offset='+offset);all.push(...page);if(page.length<1000)break;}students=all;}
+  function visibleStudents(){const term=normalize($('#roster-search').value),cls=$('#roster-class').value;return students.filter(s=>(cls==='all'||classKey(s.grade)===classKey(cls))&&normalize(fullName(s)+' '+s.grade).includes(term));}
+  function renderRoster(){
+    for(const id of picked)if(!students.some(s=>s.id===id))picked.delete(id);
+    const visible=visibleStudents();
+    $('#roster-list').innerHTML=visible.length?visible.map(s=>`<div class="roster-row"><label><input type="checkbox" data-id="${s.id}" ${picked.has(s.id)?'checked':''}><span>${esc(fullName(s))}</span></label><small>${esc(s.grade)}</small><button type="button" class="roster-del" data-del="${s.id}" title="حذف من القائمة" aria-label="حذف ${esc(s.first_name)} من القائمة">×</button></div>`).join(''):`<p class="field-note">${students.length?'لا توجد طالبات مطابقة.':'أضيفي طالباتكِ من «إضافة طالبات للقائمة».'}</p>`;
+    $('#roster-all').checked=visible.length>0&&visible.every(s=>picked.has(s.id));$('#roster-count').textContent='المحددات: '+number(picked.size);
+    const b=$('#send-submit');b.disabled=!picked.size;b.textContent=picked.size?'أرسلي إلى '+number(picked.size)+' ✉':'اختاري طالبات أولًا';
+  }
+  $('#open-send').addEventListener('click',async()=>{
+    $('#send-error').textContent='';$('#roster-add-msg').textContent='';$('#send-theme').innerHTML=$('#theme').innerHTML;$('#send-signature').value=$('#signature-name').value||profile?.display_name||'معلمتكِ';
+    try{await loadStudents();}catch(error){$('#send-error').textContent=errorMessage(error);}renderRoster();$('#send-dialog').showModal();
+  });
+  $('#roster-search').addEventListener('input',renderRoster);$('#roster-class').addEventListener('change',renderRoster);
+  $('#roster-all').addEventListener('change',()=>{const on=$('#roster-all').checked;for(const s of visibleStudents())on?picked.add(s.id):picked.delete(s.id);renderRoster();});
+  $('#roster-list').addEventListener('change',e=>{const box=e.target.closest('input[data-id]');if(!box)return;box.checked?picked.add(box.dataset.id):picked.delete(box.dataset.id);renderRoster();});
+  $('#roster-list').addEventListener('click',async e=>{
+    const b=e.target.closest('[data-del]');if(!b)return;const s=students.find(x=>x.id===b.dataset.del);if(!s||!confirm('حذف «'+fullName(s)+'» من قائمة الطالبات؟ رسائلها السابقة تبقى كما هي.'))return;
+    try{if(demo){students=students.filter(x=>x.id!==s.id);storage.set('demoStudents',students);}else{await request('/rest/v1/students?id=eq.'+encodeURIComponent(s.id),{method:'DELETE'});students=students.filter(x=>x.id!==s.id);}renderRoster();}catch(error){toast(errorMessage(error));}
+  });
+  $('#roster-add').addEventListener('click',async()=>{
+    const grade=$('#roster-add-class').value,seen=new Set(students.map(s=>normalize(fullName(s))+'|'+classKey(s.grade)));
+    const parsed=$('#roster-names').value.split(/\r?\n/).map(l=>l.replace(/\s+/g,' ').trim()).filter(Boolean).map(l=>{const [first,...rest]=l.split(' ');return {first_name:first.slice(0,50),father_name:rest.join(' ').slice(0,160),grade};});
+    const fresh=parsed.filter(s=>{const k=normalize(fullName(s))+'|'+classKey(s.grade);if(seen.has(k))return false;seen.add(k);return true;});
+    if(!parsed.length){$('#roster-add-msg').textContent='الصقي اسمًا واحدًا على الأقل.';return;}if(fresh.length>500){$('#roster-add-msg').textContent='الحد ٥٠٠ اسم في المرة الواحدة.';return;}
+    const b=$('#roster-add');setBusy(b,true,'نضيف الأسماء…');
+    try{if(fresh.length){if(demo){students.push(...fresh.map(s=>({...s,id:uuid()})));storage.set('demoStudents',students);}else{await request('/rest/v1/students',{method:'POST',body:fresh});await loadStudents();}}
+      $('#roster-names').value='';$('#roster-add-msg').textContent='أُضيفت '+number(fresh.length)+' طالبة إلى '+grade+(parsed.length>fresh.length?' · تجاوزنا '+number(parsed.length-fresh.length)+' مكررة':'')+' ♡';$('#roster-class').value=grade;renderRoster();
+    }catch(error){$('#roster-add-msg').textContent=errorMessage(error);}finally{setBusy(b,false);}
+  });
+  document.querySelectorAll('[name=send-kind]').forEach(r=>r.addEventListener('change',()=>{const custom=document.querySelector('[name=send-kind]:checked').value==='custom';$('#send-custom').hidden=!custom;$('#send-varied').hidden=custom;}));
+  $('#send-form').addEventListener('submit',async e=>{
+    e.preventDefault();$('#send-error').textContent='';const custom=document.querySelector('[name=send-kind]:checked').value==='custom',text=$('#send-message').value.trim(),signature=$('#send-signature').value.trim();
+    const chosen=students.filter(s=>picked.has(s.id));if(!chosen.length)return;
+    if(custom&&!text){$('#send-error').textContent='اكتبي رسالتكِ أولًا.';$('#send-message').focus();return;}if(!signature){$('#send-error').textContent='اكتبي توقيع المعلمة.';return;}
+    const group='رسائل '+new Intl.DateTimeFormat('ar-SA',{day:'numeric',month:'long'}).format(new Date()),withPin=$('#send-pin').checked;
+    const additions=chosen.map(s=>({first_name:s.first_name,father_name:s.father_name,grade:s.grade,message:custom?text:chooseMessage($('#send-theme').value),teacher_name:signature,school_name:$('#school-name').value.trim(),import_group:group,pin:withPin?String(crypto.getRandomValues(new Uint16Array(1))[0]%1000).padStart(3,'0'):null}));
+    const b=$('#send-submit');setBusy(b,true,'نجهّز الأظرف…');
+    try{let saved;if(demo){saved=additions.map(r=>({...r,id:uuid(),access_token:uuid(),created_at:new Date().toISOString(),first_opened_at:null,last_opened_at:null,open_count:0,loved_at:null}));}else{saved=await request('/rest/v1/letters',{method:'POST',body:additions,headers:{Prefer:'return=representation'}});if(!saved||saved.length!==additions.length)throw new Error('تعذّر تأكيد العدد المحفوظ. حدّثي القائمة قبل المحاولة مجددًا.');}
+      rows=[...saved,...rows];if(demo)storage.set('demoRows',rows);picked.clear();$('#send-message').value='';$('#send-pin').checked=false;activeGroup=group;$('#search').value='';$('#filter').value='all';$('#class-filter').value='all';renderRows();$('#send-dialog').close();
+      toast('جُهّزت '+number(saved.length)+' رسالة ♡ أرسلي رابط الموقع للطالبات'+(withPin?'، وباركود كل طالبة من زر «باركود»':''));
+    }catch(error){$('#send-error').textContent=errorMessage(error);}finally{setBusy(b,false);renderRoster();}
+  });
   let paused=storage.get('paused',matchMedia('(prefers-reduced-motion: reduce)').matches);
   function motion(){document.body.classList.toggle('motion-paused',paused);$('#motion-toggle').setAttribute('aria-pressed',String(paused));$('#motion-toggle').title=paused?'تشغيل تساقط الورد':'إيقاف تساقط الورد';$('#motion-label').textContent=paused?'حركة الورد متوقفة':'الورد يتحرّك';}
   $('#motion-toggle').addEventListener('click',()=>{paused=!paused;storage.set('paused',paused);motion();});motion();
