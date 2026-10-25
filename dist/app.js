@@ -240,7 +240,7 @@
   $('#theme').addEventListener('change',()=>{$('#message').value=chooseMessage($('#theme').value);});$('#shuffle').addEventListener('click',()=>{$('#message').value=chooseMessage($('#theme').value);});$('#cancel-edit').addEventListener('click',resetComposer);
   $('#search').addEventListener('input',renderRows);$('#class-filter').addEventListener('change',renderRows);$('#filter').addEventListener('change',renderRows);
   $('#group-cards').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;activeGroup=b.dataset.all?null:decodeURIComponent(b.dataset.group||'');renderRows();});
-  $('#new-import').addEventListener('click',()=>{
+  $('#new-import')?.addEventListener('click',()=>{
     importSheets=[];importPlan=null;$('#import-form').reset();$('#import-file-name').textContent='يُقرأ الملف على جهازكِ قبل تأكيد الاستيراد.';$('#import-preview').hidden=true;$('#sheet-field').hidden=true;$('#import-error').textContent='';$('#confirm-import').disabled=true;$('#confirm-import').textContent='اختاري ملفًا للمتابعة';$('#import-signature').value=$('#signature-name').value||profile?.display_name||'معلمتكِ';$('#import-dialog').showModal();
   });
   function renderImport(){
@@ -317,6 +317,9 @@
     $('#roster-list').innerHTML=visible.length?visible.map(s=>`<div class="roster-row"><label><input type="checkbox" data-id="${s.id}" ${picked.has(s.id)?'checked':''}><span>${esc(fullName(s))}</span></label><small>${esc(s.grade)}</small><button type="button" class="roster-del" data-del="${s.id}" title="حذف من القائمة" aria-label="حذف ${esc(s.first_name)} من القائمة">×</button></div>`).join(''):`<p class="field-note">${students.length?'لا توجد طالبات مطابقة.':'أضيفي طالباتكِ من «إضافة طالبات للقائمة».'}</p>`;
     $('#roster-all').checked=visible.length>0&&visible.every(s=>picked.has(s.id));$('#roster-count').textContent='المحددات: '+number(picked.size);
     const b=$('#send-submit');b.disabled=!picked.size;b.textContent=picked.size?'أرسلي إلى '+number(picked.size)+' ✉':'اختاري طالبات أولًا';
+    const wasHidden=$('#send-compose').hidden;$('#send-hint').hidden=picked.size>0;$('#send-compose').hidden=!picked.size;$('#send-vary-line').hidden=picked.size<2;
+    const chosen=students.filter(s=>picked.has(s.id));$('#send-to').textContent=chosen.length===1?'إلى: '+fullName(chosen[0])+' · '+chosen[0].grade:'إلى '+number(chosen.length)+' طالبة'+(chosen.length<=4?': '+chosen.map(s=>s.first_name).join('، '):'');
+    if(picked.size&&wasHidden){if(!$('#send-message').value.trim())$('#send-message').value=chooseMessage($('#send-theme').value);$('#send-compose').scrollIntoView({behavior:'smooth',block:'start'});}
   }
   $('#open-send').addEventListener('click',async()=>{
     $('#send-error').textContent='';$('#roster-add-msg').textContent='';$('#send-theme').innerHTML=$('#theme').innerHTML;$('#send-signature').value=$('#signature-name').value||profile?.display_name||'معلمتكِ';
@@ -339,16 +342,17 @@
       $('#roster-names').value='';$('#roster-add-msg').textContent='أُضيفت '+number(fresh.length)+' طالبة إلى '+grade+(parsed.length>fresh.length?' · تجاوزنا '+number(parsed.length-fresh.length)+' مكررة':'')+' ♡';$('#roster-class').value=grade;renderRoster();
     }catch(error){$('#roster-add-msg').textContent=errorMessage(error);}finally{setBusy(b,false);}
   });
-  document.querySelectorAll('[name=send-kind]').forEach(r=>r.addEventListener('change',()=>{const custom=document.querySelector('[name=send-kind]:checked').value==='custom';$('#send-custom').hidden=!custom;$('#send-varied').hidden=custom;}));
+  $('#send-theme').addEventListener('change',()=>{$('#send-message').value=chooseMessage($('#send-theme').value);});$('#send-shuffle').addEventListener('click',()=>{$('#send-message').value=chooseMessage($('#send-theme').value);});
+  document.querySelectorAll('[name=send-privacy]').forEach(r=>r.addEventListener('change',()=>{$('#send-private-note').hidden=document.querySelector('[name=send-privacy]:checked').value!=='private';}));
   $('#send-form').addEventListener('submit',async e=>{
-    e.preventDefault();$('#send-error').textContent='';const custom=document.querySelector('[name=send-kind]:checked').value==='custom',text=$('#send-message').value.trim(),signature=$('#send-signature').value.trim();
+    e.preventDefault();$('#send-error').textContent='';const text=$('#send-message').value.trim(),signature=$('#send-signature').value.trim(),vary=$('#send-vary').checked&&picked.size>1;
     const chosen=students.filter(s=>picked.has(s.id));if(!chosen.length)return;
-    if(custom&&!text){$('#send-error').textContent='اكتبي رسالتكِ أولًا.';$('#send-message').focus();return;}if(!signature){$('#send-error').textContent='اكتبي توقيع المعلمة.';return;}
-    const group='رسائل '+new Intl.DateTimeFormat('ar-SA',{day:'numeric',month:'long'}).format(new Date()),withPin=$('#send-pin').checked;
-    const additions=chosen.map(s=>({first_name:s.first_name,father_name:s.father_name,grade:s.grade,message:custom?text:chooseMessage($('#send-theme').value),teacher_name:signature,school_name:$('#school-name').value.trim(),import_group:group,pin:withPin?String(crypto.getRandomValues(new Uint16Array(1))[0]%1000).padStart(3,'0'):null}));
+    if(!text&&!vary){$('#send-error').textContent='اكتبي رسالتكِ أولًا.';$('#send-message').focus();return;}if(!signature){$('#send-error').textContent='اكتبي توقيع المعلمة.';return;}
+    const group='رسائل '+new Intl.DateTimeFormat('ar-SA',{day:'numeric',month:'long'}).format(new Date()),withPin=document.querySelector('[name=send-privacy]:checked').value==='private';
+    const additions=chosen.map(s=>({first_name:s.first_name,father_name:s.father_name,grade:s.grade,message:vary?chooseMessage($('#send-theme').value):text,teacher_name:signature,school_name:$('#school-name').value.trim(),import_group:group,pin:withPin?String(crypto.getRandomValues(new Uint16Array(1))[0]%1000).padStart(3,'0'):null}));
     const b=$('#send-submit');setBusy(b,true,'نجهّز الأظرف…');
     try{let saved;if(demo){saved=additions.map(r=>({...r,id:uuid(),access_token:uuid(),created_at:new Date().toISOString(),first_opened_at:null,last_opened_at:null,open_count:0,loved_at:null}));}else{saved=await request('/rest/v1/letters',{method:'POST',body:additions,headers:{Prefer:'return=representation'}});if(!saved||saved.length!==additions.length)throw new Error('تعذّر تأكيد العدد المحفوظ. حدّثي القائمة قبل المحاولة مجددًا.');}
-      rows=[...saved,...rows];if(demo)storage.set('demoRows',rows);picked.clear();$('#send-message').value='';$('#send-pin').checked=false;activeGroup=group;$('#search').value='';$('#filter').value='all';$('#class-filter').value='all';renderRows();$('#send-dialog').close();
+      rows=[...saved,...rows];if(demo)storage.set('demoRows',rows);picked.clear();$('#send-message').value='';$('#send-vary').checked=false;document.querySelector('[name=send-privacy][value=public]').checked=true;$('#send-private-note').hidden=true;activeGroup=group;$('#search').value='';$('#filter').value='all';$('#class-filter').value='all';renderRows();$('#send-dialog').close();
       toast('جُهّزت '+number(saved.length)+' رسالة ♡ أرسلي رابط الموقع للطالبات'+(withPin?'، وباركود كل طالبة من زر «باركود»':''));
     }catch(error){$('#send-error').textContent=errorMessage(error);}finally{setBusy(b,false);renderRoster();}
   });

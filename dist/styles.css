@@ -24,3 +24,6 @@ body{overflow-x:clip}.envelope-scene{isolation:isolate;cursor:pointer;border-rad
 .roster-list>.field-note{padding:14px;text-align:center}
 .roster-add{margin:12px 0;font-size:12px}.roster-add summary{cursor:pointer;color:var(--purple);font-size:13px}.roster-add textarea{min-height:110px}.roster-add button{margin-top:10px}
 .send-kind{border:0;padding:0;margin:14px 0 0}.send-kind legend{font-size:12px;margin-bottom:4px}
+.send-hint{text-align:center;color:var(--purple);font-size:13px;margin:16px 0;padding:14px;border:1px dashed #d8c6e5;border-radius:12px;background:#fbf8fd}
+.send-to{font-size:13px;color:var(--ink);background:#f6effa;border-radius:10px;padding:9px 12px;margin:16px 0 4px}
+.send-dialog #send-message{font-family:var(--serif);font-size:18px;line-height:1.8;background:#fcf9fd;min-height:150px}
