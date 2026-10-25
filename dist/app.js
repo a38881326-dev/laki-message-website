@@ -34,8 +34,30 @@
     {theme:'ambition',text:'لديكِ قدرات قد لا ترينها بعد، لكنني أراها.\nثقي أن ما تتعلّمينه اليوم يبني امرأة قوية واثقة غدًا، تصنع أثرًا يفخر به الجميع.'},
     {theme:'ambition',text:'اجعلي هدفكِ أن تكوني أفضل من نفسكِ أمس، لا أن تشبهي أحدًا.\nكل تقدّم صغير تحققينه يستحق أن تحتفلي به، وأنا أحتفل به معكِ.'},
     {theme:'ambition',text:'النجاح ليس محطة نصل إليها مرة واحدة، بل عادة نبنيها كل يوم.\nتنظيم وقتكِ، ومراجعة دروسكِ، وسعيكِ المستمر… كلها بذور ستُزهر نجاحًا يليق بكِ.'},
+    {theme:'start',text:'أهلًا بكِ في عام دراسي جديد!\nصفحاته بيضاء تنتظر ما ستكتبينه فيها من جهد وفضول وإنجاز. أنا سعيدة بأنكِ معنا، ومتحمسة لما سنتعلّمه معًا.'},
+    {theme:'start',text:'بداية جديدة، وفرصة جديدة لتكوني أجمل نسخة من نفسكِ.\nضعي لنفسكِ هدفًا لهذا العام، وتذكّري أنني هنا لأساعدكِ في كل خطوة نحوه.'},
+    {theme:'start',text:'مرحبًا بكِ في فصلنا!\nهنا مكان آمن لأسئلتكِ وأفكاركِ ومحاولاتكِ. لا تترددي أن تكوني أنتِ، فوجودكِ يضيف لنا شيئًا جميلًا.'},
+    {theme:'start',text:'كل عام جديد يحمل في داخله مفاجآت جميلة.\nابدئيه بقلب متفائل وحقيبة مرتّبة وعزيمة صادقة، وسترين كم ستكبرين وتتعلّمين.'},
+    {theme:'exams',text:'أنتِ مستعدة أكثر مما تظنين.\nخذي نفسًا عميقًا، واقرئي السؤال بهدوء، وابدئي بما تعرفين. كل ما ذاكرتِه حاضر معكِ، وأنا أثق بكِ.'},
+    {theme:'exams',text:'الاختبار ليس مقياسًا لقيمتكِ، بل فرصة لتُري نفسكِ ما تعلّمتِه.\nنامي جيدًا، وتناولي فطوركِ، وادخلي القاعة بثقة. بالتوفيق يا جميلة ♡'},
+    {theme:'exams',text:'إذا شعرتِ بالتوتر، فهذا يعني أنكِ تهتمين.\nحوّلي هذا الاهتمام إلى تركيز: سؤال بعد سؤال، وخطوة بعد خطوة. أنا فخورة بجهدكِ مهما كانت النتيجة.'},
+    {theme:'exams',text:'تذكّري أن تتوكلي على الله، ثم على جهدكِ ومذاكرتكِ.\nراجعي إجاباتكِ قبل التسليم، ولا تستعجلي. قلبي معكِ، وأنتظر أن أسمع أخبارًا جميلة.'},
+    {theme:'end',text:'وصلنا إلى نهاية العام، وأنتِ اليوم أقوى وأذكى وأجمل مما كنتِ في أوله.\nشكرًا لكل لحظة جميلة شاركتِنا إياها. أتمنى لكِ إجازة سعيدة ومستقبلًا مشرقًا.'},
+    {theme:'end',text:'مبارك لكِ ما أنجزتِه هذا العام!\nكل درس تعلّمتِه، وكل صعوبة تجاوزتِها، صارت جزءًا منكِ. افخري بنفسكِ كما أفخر بكِ.'},
+    {theme:'end',text:'كان وجودكِ في فصلنا هدية جميلة.\nأتمنى أن تحملي معكِ ذكريات طيبة، وأن تبقى فيكِ روح التعلّم أينما ذهبتِ. سأشتاق إليكِ.'},
+    {theme:'end',text:'إلى خريجتنا الغالية: هذه ليست نهاية، بل بداية فصل جديد من حكايتكِ.\nانطلقي بثقة، واحلمي كثيرًا، ولا تنسي أن هناك من يدعو لكِ ويفخر بكِ دائمًا.'},
+    {theme:'national',text:'كل عام ووطننا الغالي بخير وعزّ ♡\nأنتِ جزء من مستقبل هذا الوطن، وكل ما تتعلّمينه اليوم يبني غدًا أجمل له ولكِ.'},
+    {theme:'national',text:'في يوم الوطن، نفخر بأرض جمعتنا وبأحلام تكبر فينا.\nكوني دائمًا مصدر فخر لوطنكِ بعلمكِ وأخلاقكِ وطموحكِ. دام عزّكِ يا وطن.'},
+    {theme:'national',text:'حب الوطن ليس كلمات فقط، بل عمل وإخلاص وطموح.\nاجتهادكِ في دراستكِ، واحترامكِ لمن حولكِ، هدية جميلة تقدّمينها لوطنكِ كل يوم.'},
+    {theme:'national',text:'نحتفل اليوم بوطن نحبه، وبجيل مثلكِ نفخر به.\nأحلامكِ جزء من رؤية هذا الوطن، فاسعي إليها بثقة. كل عام وأنتِ ووطنكِ بألف خير.'},
+    {theme:'ramadan',text:'مبارك عليكِ الشهر الكريم ♡\nأسأل الله أن يكون رمضانكِ مليئًا بالطمأنينة والفرح والإنجاز، وأن يتقبّل منكِ صالح الأعمال.'},
+    {theme:'ramadan',text:'رمضان فرصة جميلة لنتعلّم الصبر واللطف والعطاء.\nاجعلي لكِ فيه هدفًا صغيرًا: صفحة تقرئينها، أو خيرًا تقدّمينه، أو عادة جميلة تبدئينها.'},
+    {theme:'ramadan',text:'عيدكِ مبارك، وأيامكِ سعيدة!\nأتمنى أن تقضي العيد مع أحبّتكِ بقلب فرحان، وأن تعودي إلينا بطاقة جميلة ونشاط متجدّد.'},
+    {theme:'ramadan',text:'كل عام وأنتِ بخير يا جميلة ♡\nبابتسامتكِ ولطفكِ تزيدين العيد جمالًا. تقبّل الله منكِ، وأعاده عليكِ بالخير والسعادة.'},
   ];
-  const normalize = s => String(s).normalize('NFKC').trim().toLocaleLowerCase().replace(/[\u064B-\u065F\u0670\u0640\s]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+  const occasions=['start','exams','end','national','ramadan'];
+  const digits=s=>String(s??'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).trim();
+  const normalize = s => String(s).normalize('NFKC').trim().toLocaleLowerCase().replace(/[\u064B-\u065F\u0670\u0640\s]/g,'').replace(/[أإآٱ]/g,'ا').replace(/[ىئ]/g,'ي').replace(/ؤ/g,'و').replace(/ء/g,'').replace(/ة/g,'ه');
   const matchesStudentName=(registered,input)=>normalize(registered)===normalize(input)||normalize(String(registered).trim().split(/\s+/)[0])===normalize(input);
   const number = n => new Intl.NumberFormat('ar-SA').format(n);
   const date = d => d ? new Intl.DateTimeFormat('ar-SA',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZone:'Asia/Riyadh'}).format(new Date(d)) : '';
@@ -55,7 +77,7 @@
   let activeGroup=null,importSheets=[],importPlan=null,importing=false;
   function toast(message){$('#toast').textContent=message;$('#toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('show'),3500);}
   function chooseMessage(theme='all'){
-    const pool=templates.map((m,i)=>({...m,index:i})).filter(m=>(theme==='all'||m.theme===theme)&&m.index!==lastTemplate);
+    const pool=templates.map((m,i)=>({...m,index:i})).filter(m=>(theme==='all'?!occasions.includes(m.theme):m.theme===theme)&&m.index!==lastTemplate);
     const item=pool[Math.floor(Math.random()*pool.length)];lastTemplate=item.index;return item.text;
   }
   function seedRows(){const names=[['جود','أحمد','رابع / ١'],['ليان','محمد','رابع / ١'],['ريم','خالد','رابع / ٢'],['نورة','عبدالله','رابع / ٢']];return names.map((n,i)=>({id:uuid(),access_token:uuid(),first_name:n[0],father_name:n[1],grade:n[2],message:templates[i+5].text,teacher_name:'معلمتكِ',school_name:'',created_at:new Date().toISOString(),first_opened_at:null,last_opened_at:null,open_count:0,loved_at:null}));}
@@ -84,10 +106,10 @@
       const hasLetter=!!hashParams().get('letter'),demoLetter=!!hashParams().get('demo-letter');
       $('#sample-notice').hidden=ready||hasLetter||demoLetter;
       $('#private-notice').hidden=!(ready||hasLetter||demoLetter);
-      $('#code-field').hidden=!ready||hasLetter||demoLetter;
-      $('#letter-code').required=ready&&!hasLetter&&!demoLetter;
+      $('#code-field').hidden=true;$('#pin-field').hidden=true;$('#letter-pin').value='';
+      $('#letter-code').required=false;
       $('#student-name').value='';
-      if(demoLetter){$('#private-notice').textContent='تجربة محلية لرسالة تجريبية. يظهر الفتح في اللوحة داخل هذه الجلسة فقط.';}else{$('#private-notice').textContent='رسالتكِ خاصة بالرابط الذي وصل إليكِ. يُسجَّل فتح الظرف لدى معلمتكِ.';}
+      if(demoLetter){$('#private-notice').textContent='تجربة محلية لرسالة تجريبية. يظهر الفتح في اللوحة داخل هذه الجلسة فقط.';}else{$('#private-notice').textContent='اكتبي اسمكِ كما سجّلته معلمتكِ لتفتحي رسالتكِ. يُسجَّل فتح الظرف لدى معلمتكِ.';}
     }
     window.scrollTo({top:0,behavior:'instant'});
   }
@@ -115,19 +137,19 @@
     renderGroups();const groupRows=activeGroup===null?rows:rows.filter(r=>(r.import_group||'')===activeGroup);
     $('#stat-total').textContent=number(groupRows.length);$('#stat-open').textContent=number(groupRows.filter(r=>r.first_opened_at).length);$('#stat-wait').textContent=number(groupRows.filter(r=>!r.first_opened_at).length);$('#stat-loved').textContent=number(groupRows.filter(r=>r.loved_at).length);
     const term=normalize($('#search').value),filter=$('#filter').value;
-    const visible=groupRows.filter(r=>normalize([r.first_name,r.father_name,r.grade].join(' ')).includes(term)&&(filter==='all'||filter==='opened'&&r.first_opened_at||filter==='waiting'&&!r.first_opened_at));
+    const visible=groupRows.filter(r=>normalize([r.first_name,r.father_name,r.grade].join(' ')).includes(term)&&(filter==='all'||filter==='opened'&&r.first_opened_at||filter==='waiting'&&!r.first_opened_at||filter==='replied'&&r.reply));
     $('#empty-state').hidden=visible.length>0;
     $('#empty-state h3').textContent=rows.length?'لا توجد رسائل مطابقة':'أول كلمة جميلة تبدأ من هنا';$('#empty-state p').textContent=rows.length?'جرّبي اسمًا آخر أو غيّري التصفية.':'أضيفي طالبة وجهّزي لها ظرفًا بمحبة.';
-    $('#letters-list').innerHTML=visible.map(r=>`<article class="student-row"><span class="avatar" aria-hidden="true">${esc(r.first_name.slice(0,1))}</span><div><h3>${esc(r.first_name)} ${esc(r.father_name)}</h3><p class="row-meta">${esc(r.grade)}</p><p class="row-preview">${esc(r.message)}</p><div class="row-actions"><button data-action="share" data-id="${r.id}">رابط الظرف ↗</button><button data-action="preview" data-id="${r.id}">معاينة</button><button data-action="edit" data-id="${r.id}">تعديل</button><button data-action="delete" data-id="${r.id}">حذف</button></div></div><div class="row-state"><span class="badge ${r.first_opened_at?'opened':'waiting'}">${r.first_opened_at?'♡ فُتح الظرف':'◷ بانتظار الفتح'}</span>${r.first_opened_at?`<time datetime="${esc(r.first_opened_at)}" title="وقت أول فتح بتوقيت السعودية">${date(r.first_opened_at)}</time>`:''}${r.loved_at?'<div class="love-badge">❀ أسعدتها الكلمات</div>':''}</div></article>`).join('');
+    $('#letters-list').innerHTML=visible.map(r=>`<article class="student-row"><span class="avatar" aria-hidden="true">${esc(r.first_name.slice(0,1))}</span><div><h3>${esc(r.first_name)} ${esc(r.father_name)}</h3><p class="row-meta">${esc(r.grade)}</p><p class="row-preview">${esc(r.message)}</p>${r.reply?`<p class="row-reply"><strong>💬 ردّها:</strong> ${esc(r.reply)}</p>`:''}<div class="row-actions"><button data-action="share" data-id="${r.id}">رابط الظرف ↗</button><button data-action="preview" data-id="${r.id}">معاينة</button><button data-action="edit" data-id="${r.id}">تعديل</button><button data-action="delete" data-id="${r.id}">حذف</button></div></div><div class="row-state"><span class="badge ${r.first_opened_at?'opened':'waiting'}">${r.first_opened_at?'♡ فُتح الظرف':'◷ بانتظار الفتح'}</span>${r.first_opened_at?`<time datetime="${esc(r.first_opened_at)}" title="وقت أول فتح بتوقيت السعودية">${date(r.first_opened_at)}</time>`:''}${r.loved_at?'<div class="love-badge">❀ أسعدتها الكلمات</div>':''}${r.pin?`<div class="pin-badge">🔒 الرمز: ${esc(r.pin)}${r.failed_pin_attempts>=10?' · مقفلة، احفظيها لفتحها':''}</div>`:''}</div></article>`).join('');
   }
   function resetComposer(){
     const signature=$('#signature-name').value,school=$('#school-name').value;$('#letter-form').reset();$('#edit-id').value='';$('#signature-name').value=signature||profile?.display_name||config.teacherName||'معلمتكِ';$('#school-name').value=school||'';$('#message').value=chooseMessage();$('#composer-heading').textContent='ظرف جديد';$('#create-letter').innerHTML='جهّزي الظرف <span>✉</span>';$('#cancel-edit').hidden=true;$('#composer-error').textContent='';
   }
   function preview(row){$('#preview-title').textContent='عزيزتي '+row.first_name+'،';$('#preview-message').textContent=row.message;$('#preview-signature').textContent=row.teacher_name;$('#preview-dialog').showModal();}
   function share(row){
-    const link=new URL(location.href);link.hash=demo?'demo-letter='+row.id:'letter='+row.access_token;
-    $('#share-student').textContent='إلى '+row.first_name+'، في '+row.grade;$('#share-url').value=link.href;
-    $('#share-note').textContent=demo?'هذه معاينة محلية. جرّبي الفتح في الصفحة نفسها؛ الروابط الحقيقية تعمل بعد ربط قاعدة البيانات.':'أرسلي الرابط لصاحبته فقط. تكتب اسمها الأول لفتح الرسالة، من دون حساب.';
+    const link=new URL(location.href);link.search='';link.hash=demo?'demo-letter='+row.id:'';
+    $('#share-student').textContent='إلى '+row.first_name+'، في '+row.grade;$('#share-url').value=link.href.replace(/#$/,'');
+    $('#share-note').textContent=demo?'هذه معاينة محلية. جرّبي الفتح في الصفحة نفسها؛ الروابط الحقيقية تعمل بعد ربط قاعدة البيانات.':'رابط الموقع واحد لكل الطالبات. تفتحه '+row.first_name+' وتكتب اسمها لتصلها رسالتها'+(row.pin?'، ثم الرمز السري: '+row.pin+' 🔒':'.');
     $('#copy-link').textContent=demo?'جرّبي فتح الطالبة ←':'نسخ الرابط ♡';$('#copy-link').dataset.demo=demo?row.id:'';$('#share-dialog').showModal();
   }
   function setBusy(button,busy,label){button.disabled=busy;if(busy){button.dataset.original=button.innerHTML;button.textContent=label;}else if(button.dataset.original){button.innerHTML=button.dataset.original;delete button.dataset.original;}}
@@ -141,7 +163,8 @@
   $('.envelope-scene').addEventListener('click',()=>{if($('#student-name').value.trim())$('#open-form').requestSubmit();else $('#student-name').focus();});
   function displayLetter(letter,{sample=false,demoLetter=false}={}){
     currentLetter={...letter,sample,demoLetter};$('#recipient-name').textContent='عزيزتي '+letter.first_name+'،';$('#recipient-grade').textContent=letter.grade||'';$('#letter-message').textContent=letter.message;$('#letter-teacher').textContent=letter.teacher_name||'معلمتكِ';$('#letter-school').textContent=letter.school_name||'';$('#letter-status').textContent=sample?'هذه رسالة تجريبية باسمكِ؛ لم تُسجَّل زيارة لدى معلمة.':demoLetter?'تجربة محلية: سُجّل الفتح في اللوحة التجريبية لهذه الجلسة.':'فُتح ظرفكِ بمحبة. وصل إشعار الفتح إلى معلمتكِ.';
-    $('#love-letter').textContent=letter.loved_at?'وصلت ابتسامتكِ ❀':'أسعدتني كلماتكِ ♡';$('#love-letter').disabled=!!letter.loved_at;showView('letter');$('#letter-paper').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});burst();scatterFlowers(innerWidth/2,innerHeight*.43,20);
+    $('#love-letter').textContent=letter.loved_at?'وصلت ابتسامتكِ ❀':'أسعدتني كلماتكِ ♡';$('#love-letter').disabled=!!letter.loved_at;
+    $('#reply-text').value='';$('#reply-form').hidden=sample||!!letter.reply;$('#reply-done').hidden=!letter.reply;$('#reply-done').textContent=letter.reply?'وصل ردّكِ إلى معلمتكِ ♡':'';showView('letter');$('#letter-paper').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});burst();scatterFlowers(innerWidth/2,innerHeight*.43,20);
   }
   async function revealLetter(letter,options,epoch){
     $('.envelope-scene').classList.add('opening');
@@ -152,11 +175,19 @@
   $('#open-form').addEventListener('submit',async e=>{
     e.preventDefault();const name=$('#student-name').value.trim();if(!name)return;const button=$('.open-submit');const epoch=routeEpoch;$('#student-error').textContent='';setBusy(button,true,'نفتح ظرفكِ…');
     try{
-      const params=hashParams(),demoId=params.get('demo-letter'),access=params.get('letter')||$('#letter-code').value.trim();
+      const params=hashParams(),demoId=params.get('demo-letter'),access=params.get('letter');
       if(demoId){const demoRows=storage.get('demoRows',[]);const row=demoRows.find(r=>r.id===demoId);if(!row||!matchesStudentName(row.first_name,name))throw new Error('تأكّدي من الاسم الأول. هذا الظرف التجريبي يفتح في جلسة المعلمة نفسها فقط.');const now=new Date().toISOString();row.first_opened_at||=now;row.last_opened_at=now;row.open_count++;storage.set('demoRows',demoRows);await revealLetter(row,{demoLetter:true},epoch);}
       else if(ready){
-        if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(access||''))throw new Error('افتحي الرابط الخاص الذي أرسلته معلمتكِ، أو أدخلي رمز رسالتكِ الصحيح.');
-        const row=await request('/rest/v1/rpc/open_letter',{method:'POST',auth:false,body:{p_token:access,p_name:name}});if(epoch!==routeEpoch)return;if(!row)throw new Error('لم نتمكّن من فتح الظرف. تأكّدي من اسمكِ الأول والرابط المرسل لكِ.');await revealLetter({...row,access_token:access},{},epoch);
+        if(access&&!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(access))throw new Error('الرابط غير مكتمل. افتحي صفحة الموقع واكتبي اسمكِ.');
+        const pin=digits($('#letter-pin').value);if(!$('#pin-field').hidden&&!/^[0-9]{3}$/.test(pin))throw new Error('اكتبي الرمز السري المكوّن من ٣ أرقام.');
+        const result=await request('/rest/v1/rpc/open_card',{method:'POST',auth:false,body:{p_name:name,p_pin:pin||null,p_token:access||null}});if(epoch!==routeEpoch)return;
+        const status=result?.status;
+        if(status==='pin_required'){$('#pin-field').hidden=false;$('#letter-pin').focus();throw new Error('هذه رسالة خاصة 🔒 اكتبي الرمز السري الذي أعطتكِ إياه معلمتكِ.');}
+        if(status==='wrong_pin')throw new Error('الرمز السري غير صحيح. تأكّدي منه وحاولي مجددًا.');
+        if(status==='locked')throw new Error('أُغلقت هذه الرسالة بعد محاولات كثيرة. تواصلي مع معلمتكِ.');
+        if(status==='ambiguous')throw new Error('يوجد أكثر من طالبة بهذا الاسم. اكتبي اسمكِ واسم والدكِ، مثل: سارة أحمد.');
+        if(status!=='ok')throw new Error('لم نجد رسالة بهذا الاسم. اكتبي اسمكِ كما سجّلته معلمتكِ.');
+        await revealLetter(result.letter,{},epoch);
       }else if(access){throw new Error('هذا الموقع لم يُربط بقاعدة البيانات بعد. الرسائل الخاصة ستعمل بعد إكمال التفعيل.');}
       else{await revealLetter({first_name:name,message:chooseMessage(),teacher_name:config.teacherName||'معلمتكِ',school_name:config.schoolName||''},{sample:true},epoch);}
     }catch(error){if(epoch===routeEpoch)$('#student-error').textContent=errorMessage(error);}finally{setBusy(button,false);}
@@ -174,6 +205,7 @@
     e.preventDefault();$('#composer-error').textContent='';const b=$('#create-letter');const editId=$('#edit-id').value;
     const item={first_name:$('#first-name').value.trim(),father_name:$('#father-name').value.trim(),grade:$('#grade').value.trim(),message:$('#message').value.trim(),teacher_name:$('#signature-name').value.trim(),school_name:$('#school-name').value.trim(),import_group:editId?(rows.find(r=>r.id===editId)?.import_group||''):(activeGroup||'')};
     if(!item.first_name||!item.grade||!item.message||!item.teacher_name){$('#composer-error').textContent='أكملي الاسم والصف والرسالة وتوقيع المعلمة.';return;}
+    item.pin=digits($('#pin-set').value)||null;if(item.pin&&!/^[0-9]{3}$/.test(item.pin)){$('#composer-error').textContent='الرمز السري ٣ أرقام فقط، أو اتركيه فارغًا.';return;}if(editId)item.failed_pin_attempts=0;
     setBusy(b,true,'نجهّز الظرف…');try{
       let saved;
       if(demo){if(editId){const i=rows.findIndex(r=>r.id===editId);if(i<0)throw new Error('الرسالة لم تعد موجودة. حدّثي القائمة.');rows[i]={...rows[i],...item};saved=rows[i];}else{saved={...item,id:uuid(),access_token:uuid(),created_at:new Date().toISOString(),first_opened_at:null,last_opened_at:null,open_count:0,loved_at:null};rows.unshift(saved);}storage.set('demoRows',rows);}
@@ -223,7 +255,7 @@
     if(b.dataset.action==='share')share(r);if(b.dataset.action==='preview')preview(r);
     if(b.dataset.action==='delete'){deleteId=r.id;$('#delete-dialog').showModal();}
     if(b.dataset.action==='edit'){
-      for(const [id,key] of [['first-name','first_name'],['father-name','father_name'],['grade','grade'],['message','message'],['signature-name','teacher_name'],['school-name','school_name']])$('#'+id).value=r[key]||'';
+      for(const [id,key] of [['first-name','first_name'],['father-name','father_name'],['grade','grade'],['message','message'],['signature-name','teacher_name'],['school-name','school_name'],['pin-set','pin']])$('#'+id).value=r[key]||'';
       $('#edit-id').value=r.id;$('#composer-heading').textContent='رتّبي كلماتكِ';$('#create-letter').textContent='حفظ التعديل ♡';$('#cancel-edit').hidden=false;$('#composer-error').textContent='';$('.composer').scrollIntoView({behavior:'smooth',block:'start'});$('#first-name').focus({preventScroll:true});
     }
   });
@@ -236,6 +268,10 @@
   $('#love-letter').addEventListener('click',async()=>{
     if(!currentLetter)return;const letter=currentLetter,b=$('#love-letter');setBusy(b,true,'نرسل ابتسامتكِ…');
     try{if(letter.demoLetter){const saved=storage.get('demoRows',[]);const row=saved.find(r=>r.id===letter.id);if(row){row.loved_at=new Date().toISOString();storage.set('demoRows',saved);}}else if(!letter.sample){const result=await request('/rest/v1/rpc/love_letter',{method:'POST',auth:false,body:{p_token:letter.access_token,p_name:letter.first_name}});if(result!==true)throw new Error('تعذّر إرسال ابتسامتكِ. ربما لم يعد الرابط متاحًا.');}b.textContent='وصلت ابتسامتكِ ❀';b.disabled=true;delete b.dataset.original;toast(letter.sample?'ابتسامتكِ أجمل ختام للتجربة ❀':'وصلت ابتسامتكِ إلى معلمتكِ ❀');burst();}catch(error){setBusy(b,false);toast(errorMessage(error));}
+  });
+  $('#reply-form').addEventListener('submit',async e=>{
+    e.preventDefault();if(!currentLetter)return;const text=$('#reply-text').value.trim();if(!text){$('#reply-text').focus();return;}const letter=currentLetter,b=$('#reply-form button');setBusy(b,true,'نرسل ردّكِ…');
+    try{if(letter.demoLetter){const saved=storage.get('demoRows',[]);const row=saved.find(r=>r.id===letter.id);if(row){row.reply=text;row.replied_at=new Date().toISOString();storage.set('demoRows',saved);}}else if(!letter.sample){const result=await request('/rest/v1/rpc/reply_letter',{method:'POST',auth:false,body:{p_token:letter.access_token,p_name:letter.first_name,p_reply:text}});if(result!==true)throw new Error('تعذّر إرسال ردّكِ. ربما أرسلتِ ردًّا من قبل.');}letter.reply=text;$('#reply-form').hidden=true;$('#reply-done').hidden=false;$('#reply-done').textContent='وصل ردّكِ إلى معلمتكِ ♡';toast('وصل ردّكِ إلى معلمتكِ ♡');burst();}catch(error){toast(errorMessage(error));}finally{setBusy(b,false);}
   });
   function wrappedLines(ctx,text,maxWidth){const lines=[];for(const paragraph of text.split('\n')){if(!paragraph.trim()){lines.push('');continue;}let line='';for(const word of paragraph.split(/\s+/)){const next=line?line+' '+word:word;if(ctx.measureText(next).width>maxWidth&&line){lines.push(line);line=word;}else line=next;}lines.push(line);}return lines;}
   async function downloadCard(){
