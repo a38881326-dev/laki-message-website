@@ -144,9 +144,17 @@
     $('#group-cards').innerHTML=`<button class="group-card ${activeGroup===null?'active':''}" data-all="1" aria-pressed="${activeGroup===null}"><strong><span class="group-icon">✉</span>كل الطالبات</strong><span>الطالبات: ${number(rows.length)} · المفتوحة: ${number(rows.filter(r=>r.first_opened_at).length)}</span></button>`+Array.from(groups,([name,list])=>`<button class="group-card ${activeGroup===name?'active':''}" data-group="${esc(encodeURIComponent(name))}" aria-pressed="${activeGroup===name}"><strong><span class="group-icon">${name?'▦':'♡'}</span>${esc(name||'إضافة فردية')}</strong><span>الطالبات: ${number(list.length)} · المفتوحة: ${number(list.filter(r=>r.first_opened_at).length)}</span></button>`).join('');
     $('#active-group-note').textContent=activeGroup===null?'الإحصاءات لكل الطالبات':'الإحصاءات للمجموعة: '+(activeGroup||'إضافة فردية');
   }
+  // Ring = share of letters opened; one thin bar per class with "opened of total".
+  function renderChart(list){
+    const total=list.length,opened=list.filter(r=>r.first_opened_at).length,pct=total?Math.round(opened/total*100):0,C=2*Math.PI*48;
+    $('#ring-value').setAttribute('stroke-dasharray',(total?opened/total*C:0)+' '+C);$('#ring-pct').textContent=number(pct)+'٪';
+    $('#ring-tip').textContent='فُتحت '+number(opened)+' من '+number(total);$('#legend-open').textContent=number(opened);$('#legend-wait').textContent=number(total-opened);
+    const classes=new Map();for(const r of list){const k=classKey(r.grade);if(!classes.has(k))classes.set(k,{name:r.grade,total:0,opened:0});const c=classes.get(k);c.total++;if(r.first_opened_at)c.opened++;}
+    $('#class-bars').innerHTML=total?[...classes.values()].sort((a,b)=>a.name.localeCompare(b.name,'ar')).map(c=>`<div class="class-bar" title="${esc(c.name)}: فُتحت ${number(c.opened)} من ${number(c.total)}"><span>${esc(c.name)}</span><div class="track"><div class="fill" style="width:${c.total?c.opened/c.total*100:0}%"></div></div><small>${number(c.opened)} من ${number(c.total)}</small></div>`).join(''):'<p class="field-note">تظهر النسب بعد إرسال أول رسالة.</p>';
+  }
   function renderRows(){
     renderGroups();const groupRows=activeGroup===null?rows:rows.filter(r=>(r.import_group||'')===activeGroup);
-    $('#stat-total').textContent=number(groupRows.length);$('#stat-open').textContent=number(groupRows.filter(r=>r.first_opened_at).length);$('#stat-wait').textContent=number(groupRows.filter(r=>!r.first_opened_at).length);$('#stat-loved').textContent=number(groupRows.filter(r=>r.loved_at).length);
+    $('#stat-total').textContent=number(groupRows.length);$('#stat-open').textContent=number(groupRows.filter(r=>r.first_opened_at).length);$('#stat-wait').textContent=number(groupRows.filter(r=>!r.first_opened_at).length);$('#stat-loved').textContent=number(groupRows.filter(r=>r.loved_at).length);renderChart(groupRows);
     const term=normalize($('#search').value),filter=$('#filter').value,classFilter=$('#class-filter').value;
     const visible=groupRows.filter(r=>normalize([r.first_name,r.father_name,r.grade].join(' ')).includes(term)&&(filter==='all'||filter==='opened'&&r.first_opened_at||filter==='waiting'&&!r.first_opened_at||filter==='replied'&&r.reply)&&(classFilter==='all'||classKey(r.grade)===classKey(classFilter)));
     $('#empty-state').hidden=visible.length>0;
