@@ -55,6 +55,8 @@
     {theme:'ramadan',text:'عيدكِ مبارك، وأيامكِ سعيدة!\nأتمنى أن تقضي العيد مع أحبّتكِ بقلب فرحان، وأن تعودي إلينا بطاقة جميلة ونشاط متجدّد.'},
     {theme:'ramadan',text:'كل عام وأنتِ بخير يا جميلة ♡\nبابتسامتكِ ولطفكِ تزيدين العيد جمالًا. تقبّل الله منكِ، وأعاده عليكِ بالخير والسعادة.'},
   ];
+  // ثاني-1، ثاني / ١ and ثاني1 are the same class.
+  const classKey=s=>digits(normalize(s)).replace(/[^p{L}p{N}]/gu,'');
   const occasions=['start','exams','end','national','ramadan'];
   const digits=s=>String(s??'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).trim();
   const normalize = s => String(s).normalize('NFKC').trim().toLocaleLowerCase().replace(/[\u064B-\u065F\u0670\u0640\s]/g,'').replace(/[أإآٱ]/g,'ا').replace(/[ىئ]/g,'ي').replace(/ؤ/g,'و').replace(/ء/g,'').replace(/ة/g,'ه');
@@ -116,6 +118,9 @@
       $('#letter-code').required=false;
       $('#student-name').value='';
       if(demoLetter){$('#private-notice').textContent='تجربة محلية لرسالة تجريبية. يظهر الفتح في اللوحة داخل هذه الجلسة فقط.';}else{$('#private-notice').textContent='اكتبي اسمكِ كما سجّلته معلمتكِ لتفتحي رسالتكِ. يُسجَّل فتح الظرف لدى معلمتكِ.';}
+      // A scanned QR carries her name and PIN: fill them in, drop the PIN from the address bar, and open.
+      const qrName=hashParams().get('n'),qrPin=hashParams().get('pin');
+      if(ready&&hasLetter&&qrName){$('#student-name').value=qrName;if(qrPin){$('#pin-field').hidden=false;$('#letter-pin').value=qrPin;}history.replaceState(null,'',location.pathname+'#letter='+encodeURIComponent(hashParams().get('letter')));setTimeout(()=>$('#open-form').requestSubmit(),400);}
     }
     window.scrollTo({top:0,behavior:'instant'});
   }
@@ -142,11 +147,11 @@
   function renderRows(){
     renderGroups();const groupRows=activeGroup===null?rows:rows.filter(r=>(r.import_group||'')===activeGroup);
     $('#stat-total').textContent=number(groupRows.length);$('#stat-open').textContent=number(groupRows.filter(r=>r.first_opened_at).length);$('#stat-wait').textContent=number(groupRows.filter(r=>!r.first_opened_at).length);$('#stat-loved').textContent=number(groupRows.filter(r=>r.loved_at).length);
-    const term=normalize($('#search').value),filter=$('#filter').value;
-    const visible=groupRows.filter(r=>normalize([r.first_name,r.father_name,r.grade].join(' ')).includes(term)&&(filter==='all'||filter==='opened'&&r.first_opened_at||filter==='waiting'&&!r.first_opened_at||filter==='replied'&&r.reply));
+    const term=normalize($('#search').value),filter=$('#filter').value,classFilter=$('#class-filter').value;
+    const visible=groupRows.filter(r=>normalize([r.first_name,r.father_name,r.grade].join(' ')).includes(term)&&(filter==='all'||filter==='opened'&&r.first_opened_at||filter==='waiting'&&!r.first_opened_at||filter==='replied'&&r.reply)&&(classFilter==='all'||classKey(r.grade)===classKey(classFilter)));
     $('#empty-state').hidden=visible.length>0;
     $('#empty-state h3').textContent=rows.length?'لا توجد رسائل مطابقة':'أول كلمة جميلة تبدأ من هنا';$('#empty-state p').textContent=rows.length?'جرّبي اسمًا آخر أو غيّري التصفية.':'أضيفي طالبة وجهّزي لها ظرفًا بمحبة.';
-    $('#letters-list').innerHTML=visible.map(r=>`<article class="student-row"><span class="avatar" aria-hidden="true">${esc(r.first_name.slice(0,1))}</span><div><h3>${esc(r.first_name)} ${esc(r.father_name)}</h3><p class="row-meta">${esc(r.grade)}</p><p class="row-preview">${esc(r.message)}</p>${r.reply?`<p class="row-reply"><strong>💬 ردّها:</strong> ${esc(r.reply)}</p>`:''}<div class="row-actions"><button data-action="share" data-id="${r.id}">رابط الظرف ↗</button><button data-action="preview" data-id="${r.id}">معاينة</button><button data-action="edit" data-id="${r.id}">تعديل</button><button data-action="delete" data-id="${r.id}">حذف</button></div></div><div class="row-state"><span class="badge ${r.first_opened_at?'opened':'waiting'}">${r.first_opened_at?'♡ فُتح الظرف':'◷ بانتظار الفتح'}</span>${r.first_opened_at?`<time datetime="${esc(r.first_opened_at)}" title="وقت أول فتح بتوقيت السعودية">${date(r.first_opened_at)}</time>`:''}${r.loved_at?'<div class="love-badge">❀ أسعدتها الكلمات</div>':''}${r.pin?`<div class="pin-badge">🔒 الرمز: ${esc(r.pin)}${r.failed_pin_attempts>=10?' · مقفلة، احفظيها لفتحها':''}</div>`:''}</div></article>`).join('');
+    $('#letters-list').innerHTML=visible.map(r=>`<article class="student-row"><span class="avatar" aria-hidden="true">${esc(r.first_name.slice(0,1))}</span><div><h3>${esc(r.first_name)} ${esc(r.father_name)}</h3><p class="row-meta">${esc(r.grade)}</p><p class="row-preview">${esc(r.message)}</p>${r.reply?`<p class="row-reply"><strong>💬 ردّها:</strong> ${esc(r.reply)}</p>`:''}<div class="row-actions"><button data-action="share" data-id="${r.id}">رابط الظرف ↗</button><button data-action="preview" data-id="${r.id}">معاينة</button>${r.pin?`<button data-action="qr" data-id="${r.id}">باركود ▦</button>`:''}<button data-action="edit" data-id="${r.id}">تعديل</button><button data-action="delete" data-id="${r.id}">حذف</button></div></div><div class="row-state"><span class="badge ${r.first_opened_at?'opened':'waiting'}">${r.first_opened_at?'♡ فُتح الظرف':'◷ بانتظار الفتح'}</span>${r.first_opened_at?`<time datetime="${esc(r.first_opened_at)}" title="وقت أول فتح بتوقيت السعودية">${date(r.first_opened_at)}</time>`:''}${r.loved_at?'<div class="love-badge">❀ أسعدتها الكلمات</div>':''}${r.pin?`<div class="pin-badge">🔒 الرمز: ${esc(r.pin)}${r.failed_pin_attempts>=10?' · مقفلة، احفظيها لفتحها':''}</div>`:''}</div></article>`).join('');
   }
   function resetComposer(){
     const signature=$('#signature-name').value,school=$('#school-name').value;$('#letter-form').reset();$('#edit-id').value='';$('#signature-name').value=signature||profile?.display_name||config.teacherName||'معلمتكِ';$('#school-name').value=school||'';$('#message').value=chooseMessage();$('#composer-heading').textContent='ظرف جديد';$('#create-letter').innerHTML='جهّزي الظرف <span>✉</span>';$('#cancel-edit').hidden=true;$('#composer-error').textContent='';
@@ -158,6 +163,19 @@
     $('#share-note').textContent=demo?'هذه معاينة محلية. جرّبي الفتح في الصفحة نفسها؛ الروابط الحقيقية تعمل بعد ربط قاعدة البيانات.':'رابط الموقع واحد لكل الطالبات. تفتحه '+row.first_name+' وتكتب اسمها لتصلها رسالتها'+(row.pin?'، ثم الرمز السري: '+row.pin+' 🔒':'.');
     $('#copy-link').textContent=demo?'جرّبي فتح الطالبة ←':'نسخ الرابط ♡';$('#copy-link').dataset.demo=demo?row.id:'';$('#share-dialog').showModal();
   }
+  // The QR opens this exact letter with her name and PIN already filled in; all of it stays in the # part of the link.
+  function qrLink(row){const link=new URL(location.href);link.search='';const p=new URLSearchParams({letter:row.access_token,n:row.first_name});if(row.pin)p.set('pin',row.pin);link.hash=p.toString();return link.href;}
+  function qrCanvas(row){
+    const qr=qrcode(0,'M');qr.addData(qrLink(row));qr.make();const n=qr.getModuleCount(),cell=Math.max(4,Math.floor(520/(n+8))),size=cell*(n+8),W=720,H=size+340;
+    const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+    x.fillStyle='#f4edf8';x.fillRect(0,0,W,H);x.fillStyle='#fffdfb';x.fillRect(24,24,W-48,H-48);x.strokeStyle='#d8c6e5';x.lineWidth=2;x.strokeRect(40,40,W-80,H-80);
+    x.direction='rtl';x.textAlign='center';x.fillStyle='#79539a';x.font='bold 40px Amiri, serif';x.fillText('لكِ رسالة 💌',W/2,112);x.fillStyle='#412e4a';x.font='36px Amiri, serif';x.fillText(row.first_name+(row.grade?' · '+row.grade:''),W/2,168);
+    const ox=(W-size)/2,oy=195;x.fillStyle='#ffffff';x.fillRect(ox,oy,size,size);x.fillStyle='#3d2650';for(let r=0;r<n;r++)for(let col=0;col<n;col++)if(qr.isDark(r,col))x.fillRect(ox+(col+4)*cell,oy+(r+4)*cell,cell,cell);
+    x.fillStyle='#8a7694';x.font='22px Tahoma';x.fillText('امسحي الرمز بكاميرا جوالكِ لتفتحي رسالتكِ',W/2,oy+size+52);x.fillText('هذا الرمز خاص بكِ، فلا تشاركيه',W/2,oy+size+88);return c;
+  }
+  let qrRow=null;
+  async function showQr(row){await Promise.race([document.fonts.ready,new Promise(resolve=>setTimeout(resolve,1500))]);qrRow=row;$('#qr-name').textContent=row.first_name;$('#qr-image').src=qrCanvas(row).toDataURL('image/png');$('#qr-dialog').showModal();}
+  $('#qr-download').addEventListener('click',async()=>{if(!qrRow)return;const blob=await new Promise(resolve=>qrCanvas(qrRow).toBlob(resolve,'image/png'));if(!blob)return toast('تعذّر تجهيز الصورة. حاولي مجددًا.');const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='باركود-'+qrRow.first_name+'.png';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);toast('حُفظت صورة الباركود ♡');});
   function setBusy(button,busy,label){button.disabled=busy;if(busy){button.dataset.original=button.innerHTML;button.textContent=label;}else if(button.dataset.original){button.innerHTML=button.dataset.original;delete button.dataset.original;}}
   function burst(){if(document.body.classList.contains('motion-paused')||matchMedia('(prefers-reduced-motion: reduce)').matches)return;for(let i=0;i<18;i++){const p=document.createElement('span');p.className='burst-petal';p.style.setProperty('--bx',(Math.random()-.5)*650+'px');p.style.setProperty('--by',(Math.random()-.35)*550+'px');p.style.background=['#a77cc0','#c8a7dc','#dcc6e9','#9670b5'][i%4];document.body.append(p);setTimeout(()=>p.remove(),1800);}}
   function scatterFlowers(x=innerWidth/2,y=innerHeight*.45,count=12){
@@ -220,7 +238,7 @@
     }catch(error){$('#composer-error').textContent=errorMessage(error);}finally{b.disabled=false;delete b.dataset.original;b.innerHTML=$('#edit-id').value?'حفظ التعديل ♡':'جهّزي الظرف <span>✉</span>';}
   });
   $('#theme').addEventListener('change',()=>{$('#message').value=chooseMessage($('#theme').value);});$('#shuffle').addEventListener('click',()=>{$('#message').value=chooseMessage($('#theme').value);});$('#cancel-edit').addEventListener('click',resetComposer);
-  $('#search').addEventListener('input',renderRows);$('#filter').addEventListener('change',renderRows);
+  $('#search').addEventListener('input',renderRows);$('#class-filter').addEventListener('change',renderRows);$('#filter').addEventListener('change',renderRows);
   $('#group-cards').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;activeGroup=b.dataset.all?null:decodeURIComponent(b.dataset.group||'');renderRows();});
   $('#new-import').addEventListener('click',()=>{
     importSheets=[];importPlan=null;$('#import-form').reset();$('#import-file-name').textContent='يُقرأ الملف على جهازكِ قبل تأكيد الاستيراد.';$('#import-preview').hidden=true;$('#sheet-field').hidden=true;$('#import-error').textContent='';$('#confirm-import').disabled=true;$('#confirm-import').textContent='اختاري ملفًا للمتابعة';$('#import-signature').value=$('#signature-name').value||profile?.display_name||'معلمتكِ';$('#import-dialog').showModal();
@@ -258,11 +276,11 @@
   $('#refresh').addEventListener('click',async()=>{const b=$('#refresh');setBusy(b,true,'تحديث…');await loadDashboard();setBusy(b,false);});
   $('#letters-list').addEventListener('click',e=>{
     const b=e.target.closest('button[data-action]');if(!b)return;const r=rows.find(row=>row.id===b.dataset.id);if(!r)return;
-    if(b.dataset.action==='share')share(r);if(b.dataset.action==='preview')preview(r);
+    if(b.dataset.action==='share')share(r);if(b.dataset.action==='preview')preview(r);if(b.dataset.action==='qr')showQr(r);
     if(b.dataset.action==='delete'){deleteId=r.id;$('#delete-dialog').showModal();}
     if(b.dataset.action==='edit'){
-      for(const [id,key] of [['first-name','first_name'],['father-name','father_name'],['grade','grade'],['message','message'],['signature-name','teacher_name'],['school-name','school_name'],['pin-set','pin']])$('#'+id).value=r[key]||'';
-      $('#edit-id').value=r.id;$('#composer-heading').textContent='رتّبي كلماتكِ';$('#create-letter').textContent='حفظ التعديل ♡';$('#cancel-edit').hidden=false;$('#composer-error').textContent='';$('.composer').scrollIntoView({behavior:'smooth',block:'start'});$('#first-name').focus({preventScroll:true});
+      for(const [id,key] of [['first-name','first_name'],['father-name','father_name'],['message','message'],['signature-name','teacher_name'],['school-name','school_name'],['pin-set','pin']])$('#'+id).value=r[key]||'';
+      {const g=$('#grade');if(r.grade&&![...g.options].some(o=>o.value===r.grade))g.add(new Option(r.grade,r.grade));g.value=r.grade||g.options[0].value;}$('#edit-id').value=r.id;$('#composer-heading').textContent='رتّبي كلماتكِ';$('#create-letter').textContent='حفظ التعديل ♡';$('#cancel-edit').hidden=false;$('#composer-error').textContent='';$('.composer').scrollIntoView({behavior:'smooth',block:'start'});$('#first-name').focus({preventScroll:true});
     }
   });
   $('#confirm-delete').addEventListener('click',async()=>{if(!deleteId)return;const id=deleteId,b=$('#confirm-delete');setBusy(b,true,'حذف…');try{if(!demo)await request('/rest/v1/letters?id=eq.'+encodeURIComponent(id),{method:'DELETE'});rows=rows.filter(r=>r.id!==id);if(demo)storage.set('demoRows',rows);if($('#edit-id').value===id)resetComposer();renderRows();$('#delete-dialog').close();deleteId=null;toast('حُذفت الرسالة وتوقف رابطها.');}catch(error){toast(errorMessage(error));}finally{setBusy(b,false);}});
