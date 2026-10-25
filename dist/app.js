@@ -196,7 +196,7 @@
     e.preventDefault();if(!ready){$('#login-error').textContent='لم يكتمل الربط بعد. استكشفي اللوحة التجريبية حتى يتم التفعيل.';return;}
     const b=$('#login-form button');setBusy(b,true,'جارٍ الدخول…');$('#login-error').textContent='';try{const data=await request('/auth/v1/token?grant_type=password',{method:'POST',auth:false,body:{email:$('#teacher-email').value.trim(),password:$('#teacher-password').value}});session={...data,expires_at:Math.floor(Date.now()/1000)+data.expires_in};storage.set('session',session);demo=false;$('#teacher-password').value='';await route();}catch(error){$('#login-error').textContent=errorMessage(error);}finally{setBusy(b,false);}
   });
-  $('#try-dashboard').addEventListener('click',async()=>{demo=true;await route();});
+  $('#try-dashboard')?.addEventListener('click',async()=>{demo=true;await route();});
   $('#logout').addEventListener('click',async()=>{
     const wasDemo=demo;const oldSession=session;demo=false;session=null;profile=null;rows=[];++fetchEpoch;storage.remove('session');$('#teacher-email').value='';$('#teacher-password').value='';$('#letter-form').reset();$('#edit-id').value='';resetComposer();await route();
     if(!wasDemo&&ready&&oldSession){try{await fetch(config.supabaseUrl.replace(/\/$/,'')+'/auth/v1/logout',{method:'POST',headers:{apikey:config.supabasePublishableKey,Authorization:'Bearer '+oldSession.access_token},signal:AbortSignal.timeout(8000)});}catch{}}
